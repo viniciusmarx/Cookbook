@@ -1,4 +1,5 @@
-﻿using Cookbook.Communication.Requests;
+﻿using Cookbook.Application.UseCases.User.Register;
+using Cookbook.Communication.Requests;
 using Cookbook.Communication.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,10 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(RegisterUserResponse), StatusCodes.Status201Created)]
     public IActionResult Register(RegisterUserRequest request)
     {
-        return Created();
+        var useCase = new RegisterUser();
+
+        var result = useCase.Execute(request);
+
+        return Created(string.Empty, result);
     }
 }
