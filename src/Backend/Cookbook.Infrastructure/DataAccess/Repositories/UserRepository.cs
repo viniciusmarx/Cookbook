@@ -1,0 +1,14 @@
+﻿using Cookbook.Domain.Entities;
+using Cookbook.Domain.Interfaces.Repositories.User;
+using Microsoft.EntityFrameworkCore;
+
+namespace Cookbook.Infrastructure.DataAccess.Repositories;
+
+public class UserRepository(CookbookDbContext dbContext) : IUserWriteOnlyRepository, IUserReadOnlyRepository
+{
+    private readonly CookbookDbContext _dbContext = dbContext;
+
+    public async Task Add(User user) => await _dbContext.Users.AddAsync(user);
+
+    public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(user => user.Email.Equals(email) && user.IsActive);
+}
