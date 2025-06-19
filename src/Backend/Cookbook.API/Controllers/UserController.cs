@@ -1,7 +1,6 @@
 ﻿using Cookbook.Application.UseCases.User.Register;
 using Cookbook.Communication.Requests;
 using Cookbook.Communication.Responses;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cookbook.API.Controllers;
@@ -12,11 +11,9 @@ public class UserController : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(typeof(RegisterUserResponse), StatusCodes.Status201Created)]
-    public IActionResult Register(RegisterUserRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request, [FromServices] IRegisterUser registerUser)
     {
-        var useCase = new RegisterUser();
-
-        var result = useCase.Execute(request);
+        var result = await registerUser.Execute(request);
 
         return Created(string.Empty, result);
     }

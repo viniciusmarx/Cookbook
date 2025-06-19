@@ -61,6 +61,15 @@ namespace Cookbook.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email already registered.
+        /// </summary>
+        public static string EMAIL_ALREADY_REGISTERED {
+            get {
+                return ResourceManager.GetString("EMAIL_ALREADY_REGISTERED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email is required.
         /// </summary>
         public static string EMAIL_EMPTY {
