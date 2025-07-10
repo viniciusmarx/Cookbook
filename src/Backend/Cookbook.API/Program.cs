@@ -3,6 +3,8 @@ using Cookbook.API.Middleware;
 using Cookbook.Application;
 using Cookbook.Communication.Settings;
 using Cookbook.Infrastructure;
+using Cookbook.Infrastructure.Extensions;
+using Cookbook.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,5 +34,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+DatabaseMigration.Migrate(builder.Configuration.ConnectionString(), app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 
 app.Run();
