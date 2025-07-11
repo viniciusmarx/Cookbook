@@ -2,6 +2,7 @@
 using Cookbook.Application.Services.Encryption;
 using Cookbook.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace Cookbook.Application;
 
@@ -23,7 +24,7 @@ public static class DependencyInjection
 
     private static void AddAutoMapper(IServiceCollection services)
     {
-        services.AddScoped(option => new AutoMapper.MapperConfiguration(options =>
+        services.AddScoped(option => new MapperConfiguration(options =>
         {
             options.AddProfile(new AutoMapping());
         }).CreateMapper());

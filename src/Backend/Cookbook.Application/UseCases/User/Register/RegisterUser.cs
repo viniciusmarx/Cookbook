@@ -23,7 +23,6 @@ public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserRea
         await Validate(request);
 
         var user = _mapper.Map<Domain.Entities.User>(request);
-
         user.Password = _passwordEncripter.Encrypt(request.Password);
 
         await _writeOnlyRepository.Add(user);
@@ -32,7 +31,7 @@ public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserRea
 
         return new RegisterUserResponse
         {
-            Name = request.Name,
+            Name = user.Name,
         };
     }
 
