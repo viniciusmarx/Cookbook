@@ -3,7 +3,7 @@ using Cookbook.Communication.Requests;
 
 namespace Cookbook.Application.Services.AutoMapper;
 
-internal class AutoMapping : Profile
+public class AutoMapping : Profile
 {
     public AutoMapping()
     {
