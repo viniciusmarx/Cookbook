@@ -20,7 +20,7 @@ public class RegisterUserValidatorTest
     }
 
     [Fact]
-    public void Error_Name_Empty()
+    public void Error_NameEmpty()
     {
         var validator = new RegisterUserValidator();
 
@@ -35,7 +35,7 @@ public class RegisterUserValidatorTest
     }
 
     [Fact]
-    public void Error_Email_Empty()
+    public void Error_EmailEmpty()
     {
         var validator = new RegisterUserValidator();
 
@@ -50,7 +50,7 @@ public class RegisterUserValidatorTest
     }
 
     [Fact]
-    public void Error_Email_Invalid()
+    public void Error_EmailInvalid()
     {
         var validator = new RegisterUserValidator();
 
@@ -66,7 +66,7 @@ public class RegisterUserValidatorTest
 
     [Theory]
     [InlineData(1), InlineData(2), InlineData(3), InlineData(4), InlineData(5)]
-    public void Error_Password_Invalid(int passwordLength)
+    public void Error_PasswordInvalid(int passwordLength)
     {
         var validator = new RegisterUserValidator();
 

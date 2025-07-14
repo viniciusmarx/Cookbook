@@ -35,6 +35,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-DatabaseMigration.Migrate(builder.Configuration.ConnectionString(), app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+if (!builder.Configuration.IsUnitTestEnvironment())
+{
+    DatabaseMigration.Migrate(builder.Configuration.ConnectionString(), app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+}
+
 
 app.Run();
+
+public partial class Program { }
