@@ -40,7 +40,9 @@ if (!builder.Configuration.IsUnitTestEnvironment())
     DatabaseMigration.Migrate(builder.Configuration.ConnectionString(), app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
 }
 
-
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{
+    protected Program() { }
+}

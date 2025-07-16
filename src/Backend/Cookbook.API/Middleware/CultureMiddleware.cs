@@ -13,7 +13,7 @@ public class CultureMiddleware(RequestDelegate next)
 
         var requestedCulture = context.Request.Headers.AcceptLanguage.FirstOrDefault();
 
-        if (!string.IsNullOrWhiteSpace(requestedCulture) && supportedLanguages.Any(c => c.Equals(requestedCulture)))
+        if (!string.IsNullOrWhiteSpace(requestedCulture) && supportedLanguages.Contains(requestedCulture))
         {
             language = requestedCulture;
         }
