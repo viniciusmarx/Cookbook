@@ -57,7 +57,7 @@ public class RegisterUserTest
         ex.ErrorMessages.Contains(ResourceMessagesException.EMAIL_ALREADY_REGISTERED).ShouldBeTrue();
     }
 
-    private RegisterUser CreateUseCase(string? email = null)
+    private static RegisterUser CreateUseCase(string? email = null)
     {
         var writeRepository = UserWriteOnlyRepositoryBuilder.Build();
         var readRepositoryBuilder = new UserReadOnlyRepositoryBuilder();

@@ -47,6 +47,8 @@ public class RegisterUserTest(CustomWebApplicationFactory factory) : IClassFixtu
 
         var responseData = await response.Content.ReadFromJsonAsync<JsonDocument>();
 
+        responseData.ShouldNotBeNull();
+
         var errors = responseData.RootElement.GetProperty("errors").EnumerateArray().Select(e => e.GetString()).ToList();
 
         var expectedMessage = ResourceMessagesException.ResourceManager.GetString("NAME_EMPTY", new CultureInfo(culture));
