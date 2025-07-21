@@ -3,6 +3,7 @@ using Cookbook.Application.Services.Encryption;
 using Cookbook.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using Cookbook.Application.UseCases.Login;
 
 namespace Cookbook.Application;
 
@@ -20,6 +21,7 @@ public static class DependencyInjection
     private static void AddUseCases(IServiceCollection services)
     {
         services.AddScoped<IRegisterUser, RegisterUser>();
+        services.AddScoped<ILoginUseCase, LoginUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)

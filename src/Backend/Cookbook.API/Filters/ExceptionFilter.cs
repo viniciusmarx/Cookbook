@@ -3,6 +3,7 @@ using Cookbook.Exceptions;
 using Cookbook.Exceptions.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.Net;
 
 namespace Cookbook.API.Filters;
@@ -23,10 +24,17 @@ public class ExceptionFilter : IExceptionFilter
 
     private static void HandleProjectException(ExceptionContext context)
     {
-        if (context.Exception is ErrorOnValidationException exception)
+        switch (context.Exception)
         {
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            context.Result = new BadRequestObjectResult(new ErrorResponse(exception.ErrorMessages));
+            case ErrorOnValidationException validationException:
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Result = new BadRequestObjectResult(new ErrorResponse(validationException.ErrorMessages));
+                break;
+
+            case InvalidLoginException loginException:
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                context.Result = new UnauthorizedObjectResult(new ErrorResponse(loginException.Message));
+                break;
         }
     }
 

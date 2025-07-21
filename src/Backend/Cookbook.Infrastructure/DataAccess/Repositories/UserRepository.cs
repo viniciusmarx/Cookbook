@@ -11,4 +11,11 @@ public class UserRepository(CookbookDbContext dbContext) : IUserWriteOnlyReposit
     public async Task Add(User user) => await _dbContext.Users.AddAsync(user);
 
     public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(user => user.Email.Equals(email) && user.IsActive);
+
+    public async Task<User?> GetByEmailAndPasswsord(string email, string password)
+    {
+        return await _dbContext.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(user => user.IsActive && user.Email.Equals(email) && user.Password.Equals(password));
+    }
 }

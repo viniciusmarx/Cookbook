@@ -1,5 +1,3 @@
 ﻿namespace Cookbook.Exceptions.ExceptionsBase;
 
-public class CookbookException : Exception
-{
-}
+public class CookbookException(string message) : Exception(message) { }

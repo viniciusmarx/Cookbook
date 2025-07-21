@@ -1,7 +1,6 @@
 ﻿using CommomTestUtilities.Requests;
 using Cookbook.Communication.Responses;
 using Cookbook.Exceptions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Shouldly;
 using System.Globalization;
 using System.Net;
@@ -15,13 +14,14 @@ namespace WebApi.Test.User.Register;
 public class RegisterUserTest(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
 {
     private readonly HttpClient _httpClient = factory.CreateClient();
+    private readonly string method = "user";
 
     [Fact]
     public async Task Success()
     {
         var request = RegisterUserRequestBuilder.Build();
 
-        var response = await _httpClient.PostAsJsonAsync("User", request);
+        var response = await _httpClient.PostAsJsonAsync(method, request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
 
@@ -41,7 +41,7 @@ public class RegisterUserTest(CustomWebApplicationFactory factory) : IClassFixtu
         _httpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
         _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(culture));
 
-        var response = await _httpClient.PostAsJsonAsync("User", request);
+        var response = await _httpClient.PostAsJsonAsync(method, request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
