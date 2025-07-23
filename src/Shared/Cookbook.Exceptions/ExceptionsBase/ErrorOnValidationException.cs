@@ -1,11 +1,6 @@
 ﻿namespace Cookbook.Exceptions.ExceptionsBase;
 
-public class ErrorOnValidationException : CookbookException
+public class ErrorOnValidationException(IList<string> errorMessages) : CookbookException(string.Empty)
 {
-    public IList<string> ErrorMessages { get; set; }
-
-    public ErrorOnValidationException(IList<string> errorMessages)
-    {
-        ErrorMessages = errorMessages;
-    }
+    public IList<string> ErrorMessages = errorMessages;
 }

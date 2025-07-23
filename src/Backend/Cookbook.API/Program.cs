@@ -1,3 +1,4 @@
+using Cookbook.API.Converters;
 using Cookbook.API.Filters;
 using Cookbook.API.Middleware;
 using Cookbook.Application;
@@ -8,15 +9,16 @@ using Cookbook.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 
-builder.Services.AddControllers()
-.Services.AddEndpointsApiExplorer()
+builder.Services.AddEndpointsApiExplorer()
 .AddSwaggerGen()
 .Configure<PasswordSettings>(builder.Configuration.GetSection("Settings:Password"))
 .AddApplication()
 .AddInfrastructure(builder.Configuration)
 .AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 

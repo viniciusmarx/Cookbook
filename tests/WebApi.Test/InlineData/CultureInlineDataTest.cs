@@ -11,5 +11,4 @@ public class CultureInlineDataTest : IEnumerable<object[]>
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
 }
