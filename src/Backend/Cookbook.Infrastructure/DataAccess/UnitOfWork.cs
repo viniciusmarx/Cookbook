@@ -1,4 +1,4 @@
-﻿using Cookbook.Domain.Interfaces.Repositories;
+﻿using Cookbook.Domain.Repositories;
 
 namespace Cookbook.Infrastructure.DataAccess;
 

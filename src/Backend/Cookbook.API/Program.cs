@@ -9,16 +9,19 @@ using Cookbook.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
-
-builder.Services.AddEndpointsApiExplorer()
-.AddSwaggerGen()
-.Configure<PasswordSettings>(builder.Configuration.GetSection("Settings:Password"))
-.AddApplication()
-.AddInfrastructure(builder.Configuration)
-.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new StringConverter()));
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<PasswordSettings>(builder.Configuration.GetSection("Settings:Password"));
+
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
 var app = builder.Build();
 

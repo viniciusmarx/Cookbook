@@ -1,5 +1,5 @@
 ﻿using Cookbook.Domain.Entities;
-using Cookbook.Domain.Interfaces.Repositories.User;
+using Cookbook.Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cookbook.Infrastructure.DataAccess.Repositories;
