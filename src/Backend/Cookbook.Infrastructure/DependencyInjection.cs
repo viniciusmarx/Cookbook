@@ -1,10 +1,12 @@
 ﻿using Cookbook.Domain.Repositories;
 using Cookbook.Domain.Repositories.User;
 using Cookbook.Domain.Security.Tokens;
+using Cookbook.Domain.Services.LoggedUser;
 using Cookbook.Infrastructure.DataAccess;
 using Cookbook.Infrastructure.DataAccess.Repositories;
 using Cookbook.Infrastructure.Extensions;
 using Cookbook.Infrastructure.Security.Tokens;
+using Cookbook.Infrastructure.Services.LoggedUser;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,7 @@ public static class DependencyInjection
     {
         AddRepositories(services);
         AddTokens(services, configuration);
+        AddLoggedUser(services);
 
         if (configuration.IsUnitTestEnvironment())
             return services;
@@ -62,5 +65,8 @@ public static class DependencyInjection
         var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
 
         services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator(expirationTimeMinutes, signingKey!));
+        services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signingKey!));
     }
+
+    private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 }

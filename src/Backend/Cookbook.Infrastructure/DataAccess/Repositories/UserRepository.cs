@@ -12,6 +12,8 @@ public class UserRepository(CookbookDbContext dbContext) : IUserWriteOnlyReposit
 
     public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(user => user.Email.Equals(email) && user.IsActive);
 
+    public async Task<bool> ExistActiveUserWithIdentifier(Guid userIdentifier) => await _dbContext.Users.AnyAsync(user => user.UserIdentifier.Equals(userIdentifier) && user.IsActive);
+
     public async Task<User?> GetByEmailAndPasswsord(string email, string password)
     {
         return await _dbContext.Users

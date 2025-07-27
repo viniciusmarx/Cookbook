@@ -3,6 +3,7 @@
 public class ErrorResponse
 {
     public IList<string> Errors { get; set; }
+    public bool TokenIsExpired { get; set; }
 
     public ErrorResponse(IList<string> errors) => Errors = errors;
 

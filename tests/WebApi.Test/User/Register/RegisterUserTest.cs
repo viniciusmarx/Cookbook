@@ -29,6 +29,7 @@ public class RegisterUserTest : CookbookClassFixture
 
         responseData.ShouldNotBeNull();
         responseData.Name.ShouldBe(request.Name);
+        responseData.Tokens.AccessToken.ShouldNotBeNullOrEmpty();
     }
 
     [Theory]
