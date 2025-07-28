@@ -1,4 +1,4 @@
-﻿namespace Cookbook.Domain.Interfaces.Repositories;
+﻿namespace Cookbook.Domain.Repositories;
 public interface IUnitOfWork
 {
     public Task Commit();

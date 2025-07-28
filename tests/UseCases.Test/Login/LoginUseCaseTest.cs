@@ -2,6 +2,7 @@
 using CommomTestUtilities.Entities;
 using CommomTestUtilities.Repositories;
 using CommomTestUtilities.Requests;
+using CommomTestUtilities.Tokens;
 using Cookbook.Application.UseCases.Login;
 using Cookbook.Communication.Requests;
 using Cookbook.Exceptions;
@@ -25,8 +26,10 @@ public class LoginUseCaseTest
             Password = password
         });
 
-        result.Name.ShouldNotBeNullOrWhiteSpace();
+        result.ShouldNotBeNull();
+        result.Tokens.ShouldNotBeNull();
         result.Name.ShouldBe(user.Name);
+        result.Tokens.AccessToken.ShouldNotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -48,10 +51,11 @@ public class LoginUseCaseTest
     {
         var passwordEncripter = PasswordEncripterBuilder.Build();
         var userReadOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
+        var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();
 
         if (user is not null)
             userReadOnlyRepositoryBuilder.GetByEmailAndPassword(user);
 
-        return new LoginUseCase(userReadOnlyRepositoryBuilder.Build(), passwordEncripter);
+        return new LoginUseCase(userReadOnlyRepositoryBuilder.Build(), passwordEncripter, accessTokenGenerator);
     }
 }

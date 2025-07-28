@@ -42,6 +42,7 @@ public class LoginTest : CookbookClassFixture
 
         responseData.ShouldNotBeNull();
         responseData.Name.ShouldBe(_name);
+        responseData.Tokens.AccessToken.ShouldNotBeNullOrEmpty();
     }
 
     [Theory]

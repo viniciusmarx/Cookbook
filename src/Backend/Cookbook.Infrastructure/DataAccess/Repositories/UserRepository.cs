@@ -1,5 +1,5 @@
 ﻿using Cookbook.Domain.Entities;
-using Cookbook.Domain.Interfaces.Repositories.User;
+using Cookbook.Domain.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cookbook.Infrastructure.DataAccess.Repositories;
@@ -12,10 +12,14 @@ public class UserRepository(CookbookDbContext dbContext) : IUserWriteOnlyReposit
 
     public async Task<bool> ExistActiveUserWithEmail(string email) => await _dbContext.Users.AnyAsync(user => user.Email.Equals(email) && user.IsActive);
 
+    public async Task<bool> ExistActiveUserWithIdentifier(Guid userIdentifier) => await _dbContext.Users.AnyAsync(user => user.UserIdentifier.Equals(userIdentifier) && user.IsActive);
+
     public async Task<User?> GetByEmailAndPasswsord(string email, string password)
     {
         return await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.IsActive && user.Email.Equals(email) && user.Password.Equals(password));
     }
+
+    public async Task<User> GetById(long id) => await _dbContext.Users.FirstAsync(user => user.Id == id);
 }

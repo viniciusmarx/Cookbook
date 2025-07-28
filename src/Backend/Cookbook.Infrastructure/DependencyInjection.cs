@@ -1,8 +1,12 @@
-﻿using Cookbook.Domain.Interfaces.Repositories;
-using Cookbook.Domain.Interfaces.Repositories.User;
+﻿using Cookbook.Domain.Repositories;
+using Cookbook.Domain.Repositories.User;
+using Cookbook.Domain.Security.Tokens;
+using Cookbook.Domain.Services.LoggedUser;
 using Cookbook.Infrastructure.DataAccess;
 using Cookbook.Infrastructure.DataAccess.Repositories;
 using Cookbook.Infrastructure.Extensions;
+using Cookbook.Infrastructure.Security.Tokens;
+using Cookbook.Infrastructure.Services.LoggedUser;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +20,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddRepositories(services);
+        AddTokens(services, configuration);
+        AddLoggedUser(services);
 
         if (configuration.IsUnitTestEnvironment())
             return services;
@@ -52,4 +58,15 @@ public static class DependencyInjection
                 .ScanIn(Assembly.Load("Cookbook.Infrastructure")).For.All();
         });
     }
+
+    private static void AddTokens(IServiceCollection services, IConfiguration configuration)
+    {
+        var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpirationTimeMinutes");
+        var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
+
+        services.AddScoped<IAccessTokenGenerator>(option => new JwtTokenGenerator(expirationTimeMinutes, signingKey!));
+        services.AddScoped<IAccessTokenValidator>(option => new JwtTokenValidator(signingKey!));
+    }
+
+    private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 }

@@ -2,20 +2,22 @@
 using Cookbook.Application.Services.Encryption;
 using Cookbook.Communication.Requests;
 using Cookbook.Communication.Responses;
-using Cookbook.Domain.Interfaces.Repositories;
-using Cookbook.Domain.Interfaces.Repositories.User;
+using Cookbook.Domain.Repositories;
+using Cookbook.Domain.Repositories.User;
+using Cookbook.Domain.Security.Tokens;
 using Cookbook.Exceptions;
 using Cookbook.Exceptions.ExceptionsBase;
 
 namespace Cookbook.Application.UseCases.User.Register;
 
 public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository,
-    IUnitOfWork unitOfWork, IMapper mapper, PasswordEncripter passwordEncripter) : IRegisterUser
+    IUnitOfWork unitOfWork, IMapper mapper, PasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : IRegisterUser
 {
     private readonly IUserWriteOnlyRepository _writeOnlyRepository = writeOnlyRepository;
     private readonly IUserReadOnlyRepository _readOnlyRepository = readOnlyRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
+    private readonly IAccessTokenGenerator _accessTokenGenerator = accessTokenGenerator;
     private readonly PasswordEncripter _passwordEncripter = passwordEncripter;
 
     public async Task<RegisterUserResponse> Execute(RegisterUserRequest request)
@@ -24,6 +26,7 @@ public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserRea
 
         var user = _mapper.Map<Domain.Entities.User>(request);
         user.Password = _passwordEncripter.Encrypt(request.Password);
+        user.UserIdentifier = Guid.NewGuid();
 
         await _writeOnlyRepository.Add(user);
 
@@ -32,6 +35,10 @@ public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserRea
         return new RegisterUserResponse
         {
             Name = user.Name,
+            Tokens = new TokenResponse
+            {
+                AccessToken = _accessTokenGenerator.GenerateToken(user.UserIdentifier),
+            }
         };
     }
 

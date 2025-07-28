@@ -1,5 +1,5 @@
 ﻿using Cookbook.Domain.Entities;
-using Cookbook.Domain.Interfaces.Repositories.User;
+using Cookbook.Domain.Repositories.User;
 using Moq;
 
 namespace CommomTestUtilities.Repositories;

@@ -4,6 +4,8 @@ using Cookbook.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Cookbook.Application.UseCases.Login;
+using Cookbook.Application.UseCases.User.Profile;
+using Cookbook.Application.UseCases.User.Update;
 
 namespace Cookbook.Application;
 
@@ -22,6 +24,8 @@ public static class DependencyInjection
     {
         services.AddScoped<IRegisterUser, RegisterUser>();
         services.AddScoped<ILoginUseCase, LoginUseCase>();
+        services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
+        services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)

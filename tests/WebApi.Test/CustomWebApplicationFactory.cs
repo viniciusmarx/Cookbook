@@ -1,5 +1,4 @@
 ﻿using CommomTestUtilities.Entities;
-using Cookbook.Domain.Entities;
 using Cookbook.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -45,6 +44,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     public string GetName() => _user.Name;
 
     public string GetPassword() => _password;
+
+    public Guid GetUserIdentifier() => _user.UserIdentifier;
 
     private void StartDatabase(CookbookDbContext dbContext)
     {

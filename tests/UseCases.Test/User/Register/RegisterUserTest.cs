@@ -2,6 +2,7 @@
 using CommomTestUtilities.Mapper;
 using CommomTestUtilities.Repositories;
 using CommomTestUtilities.Requests;
+using CommomTestUtilities.Tokens;
 using Cookbook.Application.UseCases.User.Register;
 using Cookbook.Exceptions;
 using Cookbook.Exceptions.ExceptionsBase;
@@ -22,6 +23,8 @@ public class RegisterUserTest
 
         result.ShouldNotBeNull();
         result.Name.ShouldBe(request.Name);
+        result.Tokens.ShouldNotBeNull();
+        result.Tokens.AccessToken.ShouldNotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -64,12 +67,13 @@ public class RegisterUserTest
         var unitOfWork = UnitOfWorkBuilder.Build();
         var mapper = MapperBuilder.Build();
         var passwordEncripter = PasswordEncripterBuilder.Build();
+        var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();
 
         if (!string.IsNullOrEmpty(email))
         {
             readRepositoryBuilder.ExistActiveUserWithEmail(email);
         }
 
-        return new RegisterUser(writeRepository, readRepositoryBuilder.Build(), unitOfWork, mapper, passwordEncripter);
+        return new RegisterUser(writeRepository, readRepositoryBuilder.Build(), unitOfWork, mapper, passwordEncripter, accessTokenGenerator);
     }
 }
