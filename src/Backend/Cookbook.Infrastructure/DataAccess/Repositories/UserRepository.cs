@@ -20,4 +20,6 @@ public class UserRepository(CookbookDbContext dbContext) : IUserWriteOnlyReposit
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.IsActive && user.Email.Equals(email) && user.Password.Equals(password));
     }
+
+    public async Task<User> GetById(long id) => await _dbContext.Users.FirstAsync(user => user.Id == id);
 }
