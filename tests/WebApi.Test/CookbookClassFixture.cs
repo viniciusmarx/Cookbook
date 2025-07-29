@@ -22,6 +22,14 @@ public class CookbookClassFixture(CustomWebApplicationFactory factory) : IClassF
         return await _httpClient.GetAsync(method);
     }
 
+    protected async Task<HttpResponseMessage> DoPatch(string method, object request, string token, string culture = "en")
+    {
+        ChangeRequestCulture(culture);
+        AuthorizeRequest(token);
+
+        return await _httpClient.PatchAsJsonAsync(method, request);
+    }
+
     private void ChangeRequestCulture(string culture)
     {
         _httpClient.DefaultRequestHeaders.AcceptLanguage.Clear();

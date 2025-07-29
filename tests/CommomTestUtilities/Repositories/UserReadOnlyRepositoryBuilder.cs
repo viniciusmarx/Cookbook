@@ -19,4 +19,10 @@ public class UserReadOnlyRepositoryBuilder
     {
         _repository.Setup(repository => repository.GetByEmailAndPasswsord(user.Email, user.Password)).ReturnsAsync(user);
     }
+
+    public UserReadOnlyRepositoryBuilder GetById(User user)
+    {
+        _repository.Setup(repository => repository.GetById(user.Id)).ReturnsAsync(user);
+        return this;
+    }
 }

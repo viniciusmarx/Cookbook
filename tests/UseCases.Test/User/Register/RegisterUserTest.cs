@@ -41,7 +41,7 @@ public class RegisterUserTest
         });
 
         ex.ErrorMessages.Count.ShouldBe(1);
-        ex.ErrorMessages.Contains(ResourceMessagesException.NAME_EMPTY).ShouldBeTrue();
+        ex.ErrorMessages.ShouldContain(ResourceMessagesException.NAME_EMPTY);
     }
 
     [Fact]

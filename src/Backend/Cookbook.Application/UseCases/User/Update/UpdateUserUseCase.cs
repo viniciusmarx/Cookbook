@@ -4,16 +4,13 @@ using Cookbook.Domain.Repositories.User;
 using Cookbook.Domain.Services.LoggedUser;
 using Cookbook.Exceptions;
 using Cookbook.Exceptions.ExceptionsBase;
-using System.Threading.Tasks;
 
 namespace Cookbook.Application.UseCases.User.Update;
 
-public class UpdateUserUseCase(ILoggedUser loggedUser, IUserReadOnlyRepository userReadOnlyRepository,
-    IUserWriteOnlyRepository userWriteOnlyRepository, IUnitOfWork unitOfWork) : IUpdateUserUseCase
+public class UpdateUserUseCase(ILoggedUser loggedUser, IUserReadOnlyRepository userReadOnlyRepository, IUnitOfWork unitOfWork) : IUpdateUserUseCase
 {
     private readonly ILoggedUser _loggedUser = loggedUser;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository = userReadOnlyRepository;
-    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository = userWriteOnlyRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task Execute(UpdateUserRequest request)
