@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Cookbook.Application.Services.Encryption;
 using Cookbook.Communication.Requests;
 using Cookbook.Communication.Responses;
 using Cookbook.Domain.Repositories;
 using Cookbook.Domain.Repositories.User;
+using Cookbook.Domain.Security.Cryptography;
 using Cookbook.Domain.Security.Tokens;
 using Cookbook.Exceptions;
 using Cookbook.Exceptions.ExceptionsBase;
@@ -11,14 +11,14 @@ using Cookbook.Exceptions.ExceptionsBase;
 namespace Cookbook.Application.UseCases.User.Register;
 
 public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository,
-    IUnitOfWork unitOfWork, IMapper mapper, PasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : IRegisterUser
+    IUnitOfWork unitOfWork, IMapper mapper, IPasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : IRegisterUser
 {
     private readonly IUserWriteOnlyRepository _writeOnlyRepository = writeOnlyRepository;
     private readonly IUserReadOnlyRepository _readOnlyRepository = readOnlyRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly IAccessTokenGenerator _accessTokenGenerator = accessTokenGenerator;
-    private readonly PasswordEncripter _passwordEncripter = passwordEncripter;
+    private readonly IPasswordEncripter _passwordEncripter = passwordEncripter;
 
     public async Task<RegisterUserResponse> Execute(RegisterUserRequest request)
     {

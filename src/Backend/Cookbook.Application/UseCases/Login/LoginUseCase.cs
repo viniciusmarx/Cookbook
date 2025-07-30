@@ -1,16 +1,16 @@
-﻿using Cookbook.Application.Services.Encryption;
-using Cookbook.Communication.Requests;
+﻿using Cookbook.Communication.Requests;
 using Cookbook.Communication.Responses;
 using Cookbook.Domain.Repositories.User;
+using Cookbook.Domain.Security.Cryptography;
 using Cookbook.Domain.Security.Tokens;
 using Cookbook.Exceptions.ExceptionsBase;
 
 namespace Cookbook.Application.UseCases.Login;
 
-public class LoginUseCase(IUserReadOnlyRepository repository, PasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : ILoginUseCase
+public class LoginUseCase(IUserReadOnlyRepository repository, IPasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : ILoginUseCase
 {
     private readonly IUserReadOnlyRepository _repository = repository;
-    private readonly PasswordEncripter _passwordEncripter = passwordEncripter;
+    private readonly IPasswordEncripter _passwordEncripter = passwordEncripter;
     private readonly IAccessTokenGenerator _accessTokenGenerator = accessTokenGenerator;
 
     public async Task<RegisterUserResponse> Execute(LoginRequest request)

@@ -1,4 +1,5 @@
 ﻿using Cookbook.API.Attributes;
+using Cookbook.Application.UseCases.User.ChangePassword;
 using Cookbook.Application.UseCases.User.Profile;
 using Cookbook.Application.UseCases.User.Register;
 using Cookbook.Application.UseCases.User.Update;
@@ -36,6 +37,17 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     [AuthenticatedUser]
     public async Task<IActionResult> Update([FromServices] IUpdateUserUseCase useCase, [FromBody] UpdateUserRequest request)
+    {
+        await useCase.Execute(request);
+
+        return NoContent();
+    }
+
+    [HttpPatch("change-password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [AuthenticatedUser]
+    public async Task<IActionResult> ChangePassword([FromServices] IChangePasswordUseCase useCase, [FromBody] ChangePasswordRequest request)
     {
         await useCase.Execute(request);
 

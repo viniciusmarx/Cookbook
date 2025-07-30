@@ -1,11 +1,11 @@
 ﻿using Cookbook.Application.Services.AutoMapper;
-using Cookbook.Application.Services.Encryption;
 using Cookbook.Application.UseCases.User.Register;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Cookbook.Application.UseCases.Login;
 using Cookbook.Application.UseCases.User.Profile;
 using Cookbook.Application.UseCases.User.Update;
+using Cookbook.Application.UseCases.User.ChangePassword;
 
 namespace Cookbook.Application;
 
@@ -15,7 +15,6 @@ public static class DependencyInjection
     {
         AddUseCases(services);
         AddAutoMapper(services);
-        AddPasswordEncrypter(services);
 
         return services;
     }
@@ -26,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<ILoginUseCase, LoginUseCase>();
         services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+        services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)
@@ -35,10 +35,4 @@ public static class DependencyInjection
             options.AddProfile(new AutoMapping());
         }).CreateMapper());
     }
-
-    private static void AddPasswordEncrypter(IServiceCollection services)
-    {
-        services.AddScoped<PasswordEncripter>();
-    }
 }
-

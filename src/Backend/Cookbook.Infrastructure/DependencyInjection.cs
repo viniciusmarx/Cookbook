@@ -1,10 +1,12 @@
 ﻿using Cookbook.Domain.Repositories;
 using Cookbook.Domain.Repositories.User;
+using Cookbook.Domain.Security.Cryptography;
 using Cookbook.Domain.Security.Tokens;
 using Cookbook.Domain.Services.LoggedUser;
 using Cookbook.Infrastructure.DataAccess;
 using Cookbook.Infrastructure.DataAccess.Repositories;
 using Cookbook.Infrastructure.Extensions;
+using Cookbook.Infrastructure.Security.Cryptography;
 using Cookbook.Infrastructure.Security.Tokens;
 using Cookbook.Infrastructure.Services.LoggedUser;
 using FluentMigrator.Runner;
@@ -22,6 +24,7 @@ public static class DependencyInjection
         AddRepositories(services);
         AddTokens(services, configuration);
         AddLoggedUser(services);
+        AddPasswordEncrypter(services);
 
         if (configuration.IsUnitTestEnvironment())
             return services;
@@ -69,4 +72,9 @@ public static class DependencyInjection
     }
 
     private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
+
+    private static void AddPasswordEncrypter(IServiceCollection services)
+    {
+        services.AddScoped<IPasswordEncripter, Sha512Encripter>();
+    }
 }

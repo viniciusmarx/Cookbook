@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\Cookbook.Communication\Cookbook.Communication.csproj" />
 		<ProjectReference Include="..\Cookbook.Domain\Cookbook.Domain.csproj" />
 	</ItemGroup>
 

@@ -1,11 +1,12 @@
 ﻿using Cookbook.Communication.Settings;
+using Cookbook.Domain.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Cookbook.Application.Services.Encryption;
+namespace Cookbook.Infrastructure.Security.Cryptography;
 
-public class PasswordEncripter(IOptions<PasswordSettings> options)
+public class Sha512Encripter(IOptions<PasswordSettings> options) : IPasswordEncripter
 {
     private readonly PasswordSettings _passwordSettings = options.Value;
 
