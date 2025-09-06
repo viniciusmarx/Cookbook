@@ -7,7 +7,7 @@ public class RecipeRequest
     public required string Title { get; set; }
     public CookingTime? CookingTime { get; set; }
     public Difficulty? Difficulty { get; set; }
-    public IEnumerable<string> Ingredients { get; set; } = [];
-    public IEnumerable<InstructionRequest> Instructions { get; set; } = [];
-    public IEnumerable<DishType> DishTypes { get; set; } = [];
+    public IList<string> Ingredients { get; set; } = [];
+    public IList<InstructionRequest> Instructions { get; set; } = [];
+    public IList<DishType> DishTypes { get; set; } = [];
 }
