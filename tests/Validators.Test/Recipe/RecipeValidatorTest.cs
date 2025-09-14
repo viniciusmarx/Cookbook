@@ -211,4 +211,19 @@ public class RecipeValidatorTest
         result.Errors.Count.ShouldBe(1);
         result.Errors.ShouldContain(e => e.ErrorMessage.Equals(ResourceMessagesException.INSTRUCTION_EMPTY));
     }
+
+    [Fact]
+    public void Error_InstructionsTooLong()
+    {
+        var request = RecipeRequestBuilder.Build();
+        request.Instructions.First().Text = new string('a', 2001);
+
+        var validator = new RecipeValidator();
+
+        var result = validator.Validate(request);
+
+        result.IsValid.ShouldBeFalse();
+        result.Errors.Count.ShouldBe(1);
+        result.Errors.ShouldContain(e => e.ErrorMessage.Equals(ResourceMessagesException.INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS));
+    }
 }

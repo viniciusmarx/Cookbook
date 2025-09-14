@@ -34,7 +34,7 @@ public class LoginTest : CookbookClassFixture
             Password = _password
         };
 
-        var response = await DoPost(_method, request);
+        var response = await DoPost(method: _method, request: request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
 
@@ -51,7 +51,7 @@ public class LoginTest : CookbookClassFixture
     {
         var request = LoginRequestBuilder.Build();
 
-        var response = await DoPost(_method, request, culture);
+        var response = await DoPost(method: _method, request: request, culture: culture);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
 
