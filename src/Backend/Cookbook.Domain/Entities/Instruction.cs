@@ -1,5 +1,8 @@
-﻿namespace Cookbook.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace Cookbook.Domain.Entities;
+
+[Table("Instructions")]
 public class Instruction : EntityBase
 {
     public int Step { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Cookbook.Domain.Repositories;
+using Cookbook.Domain.Repositories.Recipe;
 using Cookbook.Domain.Repositories.User;
 using Cookbook.Domain.Security.Cryptography;
 using Cookbook.Domain.Security.Tokens;
@@ -50,6 +51,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
+        services.AddScoped<IRecipeRepository, RecipeRepository>();
     }
 
     private static void AddFluentMigrator(IServiceCollection services, string connectionString)

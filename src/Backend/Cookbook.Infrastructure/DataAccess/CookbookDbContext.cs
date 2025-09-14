@@ -7,6 +7,8 @@ public class CookbookDbContext(DbContextOptions<CookbookDbContext> options) : Db
 {
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Recipe> Recipes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Testar se é necessario
