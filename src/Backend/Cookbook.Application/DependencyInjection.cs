@@ -8,6 +8,7 @@ using Cookbook.Application.UseCases.User.Update;
 using Cookbook.Application.UseCases.User.ChangePassword;
 using Cookbook.Application.UseCases.Recipe.Register;
 using Sqids;
+using Cookbook.Application.UseCases.Recipe.Filter;
 
 namespace Cookbook.Application;
 
@@ -29,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
         services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
         services.AddScoped<IRegisterRecipeUseCase, RegisterRecipeUseCase>();
+        services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)
