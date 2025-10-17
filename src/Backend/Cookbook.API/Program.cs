@@ -52,8 +52,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<PasswordSettings>(builder.Configuration.GetSection("Settings:Password"));
 
 builder.Services
-    .AddApplication()
     .AddInfrastructure(builder.Configuration)
+    .AddApplication()
     .AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));

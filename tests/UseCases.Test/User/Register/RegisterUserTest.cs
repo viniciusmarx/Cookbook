@@ -60,7 +60,7 @@ public class RegisterUserTest
         ex.ErrorMessages.Contains(ResourceMessagesException.EMAIL_ALREADY_REGISTERED).ShouldBeTrue();
     }
 
-    private static RegisterUser CreateUseCase(string? email = null)
+    private static RegisterUserUseCase CreateUseCase(string? email = null)
     {
         var writeRepository = UserWriteOnlyRepositoryBuilder.Build();
         var readRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
@@ -74,6 +74,6 @@ public class RegisterUserTest
             readRepositoryBuilder.ExistActiveUserWithEmail(email);
         }
 
-        return new RegisterUser(writeRepository, readRepositoryBuilder.Build(), unitOfWork, mapper, passwordEncripter, accessTokenGenerator);
+        return new RegisterUserUseCase(writeRepository, readRepositoryBuilder.Build(), unitOfWork, mapper, passwordEncripter, accessTokenGenerator);
     }
 }

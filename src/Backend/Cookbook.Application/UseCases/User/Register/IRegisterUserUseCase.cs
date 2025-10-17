@@ -3,7 +3,7 @@ using Cookbook.Communication.Responses;
 
 namespace Cookbook.Application.UseCases.User.Register;
 
-public interface IRegisterUser
+public interface IRegisterUserUseCase
 {
     public Task<RegisterUserResponse> Execute(RegisterUserRequest request);
 }

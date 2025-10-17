@@ -23,7 +23,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         AddRepositories(services);
-        AddTokens(services, configuration);
+        AddJwtAuthentication(services, configuration);
         AddLoggedUser(services);
         AddPasswordEncrypter(services);
 
@@ -31,7 +31,7 @@ public static class DependencyInjection
             return services;
 
         AddDbContext(services, configuration.ConnectionString());
-        AddFluentMigrator(services, configuration.ConnectionString());
+        AddMigrations(services, configuration.ConnectionString());
 
         return services;
     }
@@ -48,13 +48,16 @@ public static class DependencyInjection
 
     private static void AddRepositories(IServiceCollection services)
     {
+        services.Scan(scan => scan
+            .FromAssemblies(Assembly.GetExecutingAssembly())
+            .AddClasses(classes => classes.Where(c => c.Name.EndsWith("Repository")))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
-        services.AddScoped<IUserReadOnlyRepository, UserRepository>();
-        services.AddScoped<IRecipeRepository, RecipeRepository>();
     }
 
-    private static void AddFluentMigrator(IServiceCollection services, string connectionString)
+    private static void AddMigrations(IServiceCollection services, string connectionString)
     {
         services.AddFluentMigratorCore().ConfigureRunner(options =>
         {
@@ -64,7 +67,7 @@ public static class DependencyInjection
         });
     }
 
-    private static void AddTokens(IServiceCollection services, IConfiguration configuration)
+    private static void AddJwtAuthentication(IServiceCollection services, IConfiguration configuration)
     {
         var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpirationTimeMinutes");
         var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
@@ -75,8 +78,5 @@ public static class DependencyInjection
 
     private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 
-    private static void AddPasswordEncrypter(IServiceCollection services)
-    {
-        services.AddScoped<IPasswordEncripter, Sha512Encripter>();
-    }
+    private static void AddPasswordEncrypter(IServiceCollection services) => services.AddScoped<IPasswordEncripter, Sha512Encripter>();
 }

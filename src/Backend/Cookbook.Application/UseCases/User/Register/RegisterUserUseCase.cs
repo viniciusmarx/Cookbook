@@ -10,8 +10,8 @@ using Cookbook.Exceptions.ExceptionsBase;
 
 namespace Cookbook.Application.UseCases.User.Register;
 
-public class RegisterUser(IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository,
-    IUnitOfWork unitOfWork, IMapper mapper, IPasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : IRegisterUser
+public class RegisterUserUseCase(IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository,
+    IUnitOfWork unitOfWork, IMapper mapper, IPasswordEncripter passwordEncripter, IAccessTokenGenerator accessTokenGenerator) : IRegisterUserUseCase
 {
     private readonly IUserWriteOnlyRepository _writeOnlyRepository = writeOnlyRepository;
     private readonly IUserReadOnlyRepository _readOnlyRepository = readOnlyRepository;

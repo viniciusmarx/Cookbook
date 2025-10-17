@@ -38,7 +38,12 @@ public class AutoMapping : Profile
     private void DomainToResponse()
     {
         CreateMap<Domain.Entities.User, UserProfileResponse>();
+
         CreateMap<Domain.Entities.Recipe, RegisteredRecipeResponse>()
             .ForMember(dest => dest.Id, config => config.MapFrom(source => _idEncoder.Encode(source.Id)));
+
+        CreateMap<Domain.Entities.Recipe, RecipesResponse>()
+            .ForMember(dest => dest.Id, config => config.MapFrom(source => _idEncoder.Encode(source.Id)))
+            .ForMember(dest => dest.AmountIngredients, config => config.MapFrom(source => source.Ingredients.Count()));
     }
 }

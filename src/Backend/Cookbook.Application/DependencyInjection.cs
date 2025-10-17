@@ -1,14 +1,15 @@
-﻿using Cookbook.Application.Services.AutoMapper;
-using Cookbook.Application.UseCases.User.Register;
-using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
+﻿using AutoMapper;
+using Cookbook.Application.Services.AutoMapper;
 using Cookbook.Application.UseCases.Login;
-using Cookbook.Application.UseCases.User.Profile;
-using Cookbook.Application.UseCases.User.Update;
-using Cookbook.Application.UseCases.User.ChangePassword;
-using Cookbook.Application.UseCases.Recipe.Register;
-using Sqids;
 using Cookbook.Application.UseCases.Recipe.Filter;
+using Cookbook.Application.UseCases.Recipe.Register;
+using Cookbook.Application.UseCases.User.ChangePassword;
+using Cookbook.Application.UseCases.User.Profile;
+using Cookbook.Application.UseCases.User.Register;
+using Cookbook.Application.UseCases.User.Update;
+using Microsoft.Extensions.DependencyInjection;
+using Sqids;
+using System.Reflection;
 
 namespace Cookbook.Application;
 
@@ -24,13 +25,11 @@ public static class DependencyInjection
 
     private static void AddUseCases(IServiceCollection services)
     {
-        services.AddScoped<IRegisterUser, RegisterUser>();
-        services.AddScoped<ILoginUseCase, LoginUseCase>();
-        services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
-        services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
-        services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
-        services.AddScoped<IRegisterRecipeUseCase, RegisterRecipeUseCase>();
-        services.AddScoped<IFilterRecipeUseCase, FilterRecipeUseCase>();
+        services.Scan(scan => scan
+            .FromAssemblies(Assembly.GetExecutingAssembly())
+            .AddClasses(classes => classes.Where(c => c.Name.EndsWith("UseCase")))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
     }
 
     private static void AddAutoMapper(IServiceCollection services)

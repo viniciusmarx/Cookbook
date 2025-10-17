@@ -13,7 +13,7 @@ public class RecipeRepository(CookbookDbContext dbContext) : IRecipeRepository
 
     public async Task<IEnumerable<Recipe>> Filter(User user, RecipeFilters filters)
     {
-        var query = _dbContext.Recipes.AsNoTracking().Where(recipe => recipe.IsActive && recipe.UserId == user.Id);
+        var query = _dbContext.Recipes.AsNoTracking().Include(recipe => recipe.Ingredients).Where(recipe => recipe.IsActive && recipe.UserId == user.Id);
 
         if (filters.Difficulties.Any())
             query = query.Where(recipe => recipe.Difficulty.HasValue && filters.Difficulties.Contains(recipe.Difficulty.Value));
