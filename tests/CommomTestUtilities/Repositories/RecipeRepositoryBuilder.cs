@@ -1,19 +1,23 @@
-﻿using Cookbook.Domain.Repositories.Recipe;
+﻿using Cookbook.Domain.Entities;
+using Cookbook.Domain.Repositories.Recipe;
+using Cookbook.Domain.ValueObjects;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommomTestUtilities.Repositories;
 
 public class RecipeRepositoryBuilder
 {
-    public static IRecipeRepository Build()
-    {
-        var mock = new Mock<IRecipeRepository>();
+    private readonly Mock<IRecipeRepository> _repository = new();
 
-        return mock.Object;
+    public RecipeRepositoryBuilder Filter(User user, IList<Recipe> recipes)
+    {
+        _repository.Setup(r => r.Filter(user, It.IsAny<RecipeFilters>())).ReturnsAsync(recipes);
+
+        return this;
+    }
+
+    public IRecipeRepository Build()
+    {
+        return _repository.Object;
     }
 }

@@ -25,7 +25,7 @@ public class RecipeRepository(CookbookDbContext dbContext) : IRecipeRepository
             query = query.Where(recipe => recipe.DishTypes.Any(dishType => filters.DishTypes.Contains(dishType.Type)));
 
         if (filters.RecipeTitle is not null)
-            query = query.Where(recipe => recipe.Title.Contains(filters.RecipeTitle));
+            query = query.Where(recipe => recipe.Title.Contains(filters.RecipeTitle) || recipe.Ingredients.Any(ingredient => ingredient.Item.Contains(filters.RecipeTitle)));
 
         return await query.ToListAsync();
     }
