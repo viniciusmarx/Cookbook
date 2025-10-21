@@ -29,4 +29,14 @@ public class RecipeRepository(CookbookDbContext dbContext) : IRecipeRepository
 
         return await query.ToListAsync();
     }
+
+    public async Task<Recipe?> GetById(User user, long recipeId)
+    {
+        return await _dbContext.Recipes
+            .AsNoTracking()
+            .Include(recipe => recipe.Ingredients)
+            .Include(recipe => recipe.Instructions)
+            .Include(recipe => recipe.DishTypes)
+            .FirstOrDefaultAsync(recipe => recipe.IsActive && recipe.Id == recipeId && recipe.UserId == user.Id);
+    }
 }

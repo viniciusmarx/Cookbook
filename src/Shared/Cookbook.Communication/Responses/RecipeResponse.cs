@@ -1,0 +1,15 @@
+﻿using Cookbook.Domain.Enums;
+
+namespace Cookbook.Communication.Responses;
+
+public class RecipeResponse
+{
+    public string Id { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public IList<IngredientResponse> Ingredients { get; set; } = [];
+    public IList<InstructionResponse> Instructions { get; set; } = [];
+    public IList<DishType> DishTypes { get; set; } = [];
+    public CookingTime? CookingTime { get; set; }
+    public Difficulty? Difficulty { get; set; }
+    public string? ImageUrl { get; set; }
+}
