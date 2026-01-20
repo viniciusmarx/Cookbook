@@ -7,7 +7,7 @@ using Cookbook.Exceptions.ExceptionsBase;
 
 namespace Cookbook.Application.UseCases.Recipe.GetById;
 
-public class GetRecipeByIdUseCase(IMapper mapper, ILoggedUser loggedUser, IRecipeRepository recipeRepository)
+public class GetRecipeByIdUseCase(IMapper mapper, ILoggedUser loggedUser, IRecipeRepository recipeRepository) : IGetRecipeByIdUseCase
 {
     private readonly IMapper _mapper = mapper;
     private readonly ILoggedUser _loggedUser = loggedUser;
