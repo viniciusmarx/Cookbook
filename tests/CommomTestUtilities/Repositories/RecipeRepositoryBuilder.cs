@@ -16,8 +16,13 @@ public class RecipeRepositoryBuilder
         return this;
     }
 
-    public IRecipeRepository Build()
+    public RecipeRepositoryBuilder GetById(User user, Recipe? recipe)
     {
-        return _repository.Object;
+        if (recipe is not null)
+            _repository.Setup(repository => repository.GetById(user, recipe.Id)).ReturnsAsync(recipe);
+
+        return this;
     }
+
+    public IRecipeRepository Build() => _repository.Object;
 }

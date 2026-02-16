@@ -50,7 +50,7 @@ public class AutoMapping : Profile
             .ForMember(dest => dest.Id, config => config.MapFrom(source => _idEncoder.Encode(source.Id)))
             .ForMember(dest => dest.DishTypes, config => config.MapFrom(source => source.DishTypes.Select(r => r.Type)));
 
-        CreateMap<Domain.Entities.Recipe, IngredientResponse>()
+        CreateMap<Domain.Entities.Ingredient, IngredientResponse>()
             .ForMember(dest => dest.Id, config => config.MapFrom(source => _idEncoder.Encode(source.Id)));
 
         CreateMap<Domain.Entities.Instruction, InstructionResponse>()
